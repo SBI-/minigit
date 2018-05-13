@@ -15,7 +15,7 @@ Current functionality is extremely limited, and only features that are required 
 ## Maven
 To use minigit as a dependency with maven: 
 1. clone this repository with `git clone git@github.com:jazz-community/jazz-plugin-maven-archetype.git` or `git clone https://github.com/jazz-community/jazz-plugin-maven-archetype.git`.
-2. Install the library to your maven repository using `mvn install`
+2. Install the library to your maven repository using `mvn install` or the provided maven wrapper `./mvnw install`
 3. Use the library in any project you like by adding it as a dependency to your pom file:
       ```
       <dependency>
