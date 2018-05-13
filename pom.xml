@@ -57,7 +57,7 @@
                     <includeToString>false</includeToString>
                     <sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>
                     <sourceType>json</sourceType>
-                    <targetPackage>org.jazzcommunity.gitlib.type</targetPackage>
+                    <targetPackage>ch.sbi.minigit.type</targetPackage>
                 </configuration>
                 <executions>
                     <execution>
