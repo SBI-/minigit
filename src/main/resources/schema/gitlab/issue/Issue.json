@@ -39,7 +39,7 @@
   "user_notes_count": 23,
   "upvotes": 0,
   "downvotes": 0,
-  "due_date": null,
+  "due_date": "2018-09-29",
   "confidential": false,
   "discussion_locked": null,
   "web_url": "https://gitlab.com/username/RTC-Commit-Picker-Demo/issues/6",
@@ -47,7 +47,7 @@
     "time_estimate": 0,
     "total_time_spent": 0,
     "human_time_estimate": null,
-    "human_total_time_spent": null
+    "human_total_time_spent": "1h"
   },
   "_links": {
     "self": "http://gitlab.com/api/v4/projects/13027/issues/6",
