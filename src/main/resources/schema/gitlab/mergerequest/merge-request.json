@@ -28,7 +28,7 @@
   },
   "source_project_id": 2,
   "target_project_id": 3,
-  "labels": [ ],
+  "labels": [ "label1", "label2" ],
   "description": "fixed login page css paddings",
   "work_in_progress": false,
   "milestone": {
