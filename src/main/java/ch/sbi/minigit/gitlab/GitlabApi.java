@@ -40,6 +40,10 @@ public final class GitlabApi {
   }
 
   public Project getProject(int id) throws IOException {
+    return getProject(String.valueOf(id));
+  }
+
+  public Project getProject(String id) throws IOException {
     String path = String.format("projects/%s", id);
     return client.getResource(path, Project.class);
   }
