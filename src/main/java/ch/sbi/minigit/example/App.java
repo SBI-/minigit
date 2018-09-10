@@ -1,8 +1,8 @@
 package ch.sbi.minigit.example;
 
+import ch.sbi.minigit.github.GithubApi;
 import ch.sbi.minigit.type.github.issue.Issue;
 import ch.sbi.minigit.type.github.pullrequest.PullRequest;
-import ch.sbi.minigit.github.GithubApi;
 
 public class App {
   public static void main(String[] args) throws Exception {

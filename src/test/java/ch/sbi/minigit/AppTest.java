@@ -5,15 +5,15 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 public class AppTest extends TestCase {
-    public AppTest(String testName) {
-        super(testName);
-    }
+  public AppTest(String testName) {
+    super(testName);
+  }
 
-    public static Test suite() {
-        return new TestSuite(AppTest.class);
-    }
+  public static Test suite() {
+    return new TestSuite(AppTest.class);
+  }
 
-    public void testApp() {
-        assertTrue(true);
-    }
+  public void testApp() {
+    assertTrue(true);
+  }
 }

@@ -1,12 +1,12 @@
 package ch.sbi.minigit.gitlab;
 
 import ch.sbi.minigit.net.BasicJsonBuilder;
-import java.io.IOException;
 import ch.sbi.minigit.net.JsonClient;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import ch.sbi.minigit.type.gitlab.project.Project;
+import java.io.IOException;
 
 public final class GitlabApi {
   private final JsonClient client;
