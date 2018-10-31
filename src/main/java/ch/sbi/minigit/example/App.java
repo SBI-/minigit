@@ -1,8 +1,10 @@
 package ch.sbi.minigit.example;
 
+import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.github.issue.Issue;
 import ch.sbi.minigit.type.github.pullrequest.PullRequest;
 import ch.sbi.minigit.github.GithubApi;
+import ch.sbi.minigit.type.gitlab.user.User;
 
 public class App {
   public static void main(String[] args) throws Exception {
@@ -20,5 +22,10 @@ public class App {
     PullRequest request = githubApi.getPullRequest("jazz-community", "rtc-git-connector", 9);
     System.out.println(
         String.format("%s: %s\n\t%s", request.getNumber(), request.getTitle(), request.getBody()));
+
+    GitlabApi gitlabApi = new GitlabApi("https://gitlab.com", gitlabtoken);
+    User user = gitlabApi.getUser("1969742");
+    System.out.println(
+        String.format("User name: %s email: %s real name: %s", user.getUsername(), user.getPublicEmail(), user.getName()));
   }
 }

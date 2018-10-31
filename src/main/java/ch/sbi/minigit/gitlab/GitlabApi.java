@@ -1,6 +1,7 @@
 package ch.sbi.minigit.gitlab;
 
 import ch.sbi.minigit.net.BasicJsonBuilder;
+import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
 import ch.sbi.minigit.net.JsonClient;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
@@ -42,5 +43,10 @@ public final class GitlabApi {
   public Project getProject(int id) throws IOException {
     String path = String.format("projects/%s", id);
     return client.getResource(path, Project.class);
+  }
+
+  public User getUser(String id) throws IOException {
+    String path = String.format("users/%s", id);
+    return client.getResource(path, User.class);
   }
 }
