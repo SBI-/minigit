@@ -1,13 +1,13 @@
 package ch.sbi.minigit.gitlab;
 
 import ch.sbi.minigit.net.BasicJsonBuilder;
-import ch.sbi.minigit.type.gitlab.user.User;
-import java.io.IOException;
 import ch.sbi.minigit.net.JsonClient;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import ch.sbi.minigit.type.gitlab.project.Project;
+import ch.sbi.minigit.type.gitlab.user.User;
+import java.io.IOException;
 
 public final class GitlabApi {
   private final JsonClient client;
@@ -41,6 +41,10 @@ public final class GitlabApi {
   }
 
   public Project getProject(int id) throws IOException {
+    return getProject(String.valueOf(id));
+  }
+
+  public Project getProject(String id) throws IOException {
     String path = String.format("projects/%s", id);
     return client.getResource(path, Project.class);
   }

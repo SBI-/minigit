@@ -7,10 +7,42 @@
   "state": "opened",
   "created_at": "2018-01-18T10:27:32.123+01:00",
   "updated_at": "2018-02-13T15:00:04.293+01:00",
-  "closed_at": null,
-  "labels": [],
-  "milestone": null,
-  "assignees": [],
+  "closed_at": "2018-02-15T15:00:04.293+01:00",
+  "closed_by": {
+    "id": 150,
+    "name": "Huerlimann Pascal",
+    "username": "z0034uwp",
+    "state": "active",
+    "avatar_url": null,
+    "web_url": "https://code.siemens.com/z0034uwp"
+  },
+  "labels": [
+    "label1",
+    "label2",
+    "label3"
+  ],
+  "milestone": {
+    "id": 5607,
+    "iid": 1,
+    "project_id": 13027,
+    "title": "Unit testing milestone",
+    "description": "This is a mile stone for unit testing.\r\n\r\n# It can have Markdown!\r\n\r\n[and_attachments.txt](/uploads/50395a5a72794a9f4f1c629ce95ebaf2/and_attachments.txt)",
+    "state": "active",
+    "created_at": "2018-06-05T16:19:05.023+02:00",
+    "updated_at": "2018-06-05T16:19:05.023+02:00",
+    "due_date": "2019-06-01",
+    "start_date": "2018-06-01"
+  },
+  "assignees": [
+    {
+      "id": 115,
+      "name": "Firstname Lastname username",
+      "username": "user.name",
+      "state": "active",
+      "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/115/avatar.png",
+      "web_url": "https://gitlab.com/username"
+    }
+  ],
   "author": {
     "id": 115,
     "name": "Firstname Lastname username",
@@ -19,11 +51,18 @@
     "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/115/avatar.png",
     "web_url": "https://gitlab.com/username"
   },
-  "assignee": null,
+  "assignee": {
+    "id": 115,
+    "name": "Firstname Lastname username",
+    "username": "user.name",
+    "state": "active",
+    "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/115/avatar.png",
+    "web_url": "https://gitlab.com/username"
+  },
   "user_notes_count": 23,
   "upvotes": 0,
   "downvotes": 0,
-  "due_date": null,
+  "due_date": "2018-09-29",
   "confidential": false,
   "discussion_locked": null,
   "web_url": "https://gitlab.com/username/RTC-Commit-Picker-Demo/issues/6",
@@ -31,7 +70,7 @@
     "time_estimate": 0,
     "total_time_spent": 0,
     "human_time_estimate": null,
-    "human_total_time_spent": null
+    "human_total_time_spent": "1h"
   },
   "_links": {
     "self": "http://gitlab.com/api/v4/projects/13027/issues/6",
