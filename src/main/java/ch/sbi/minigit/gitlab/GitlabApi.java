@@ -12,6 +12,10 @@ import java.io.IOException;
 public final class GitlabApi {
   private final JsonClient client;
 
+  public GitlabApi(String host) {
+    client = new BasicJsonBuilder().setService(host + "/api/v4").create();
+  }
+
   public GitlabApi(String host, String token) {
     client =
         new BasicJsonBuilder()
