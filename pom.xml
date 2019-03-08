@@ -61,7 +61,7 @@
       <plugin>
         <groupId>org.jsonschema2pojo</groupId>
         <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-        <version>0.5.1</version>
+        <version>1.0.0</version>
         <configuration>
           <addCompileSourceRoot>true</addCompileSourceRoot>
           <annotationStyle>gson</annotationStyle>
