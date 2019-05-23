@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /** Separated into a class for later dependency injection */
@@ -20,6 +22,22 @@ public final class BasicJsonClient implements JsonClient {
   BasicJsonClient(String baseUrl, Map<String, String> properties) {
     this.baseUrl = baseUrl;
     this.properties = properties;
+  }
+
+  public <T> Collection<T> getResources(String path, Class<T> type) throws IOException {
+    String endpoint = String.format("%s/%s", baseUrl, path);
+    HttpURLConnection connection = getHttpConnection(endpoint);
+    addRequestProperties(connection);
+    connection.connect();
+
+    // read out some header information first
+    // we only want to work with the actual header navigation
+
+    try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
+      T t = gson.fromJson(reader, type);
+    }
+
+    return Collections.emptyList();
   }
 
   @Override

@@ -9,6 +9,7 @@ import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 
 public final class GitlabApi {
   private final JsonClient client;
@@ -40,6 +41,7 @@ public final class GitlabApi {
   }
 
   public Collection<Issue> getIssues(int project) {
+    return Collections.emptyList();
   }
 
   public MergeRequest getMergeRequest(int project, int iid) throws IOException {
