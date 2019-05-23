@@ -8,6 +8,7 @@ import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
+import java.util.Collection;
 
 public final class GitlabApi {
   private final JsonClient client;
@@ -32,6 +33,13 @@ public final class GitlabApi {
   public Issue getIssue(int project, int iid) throws IOException {
     String path = String.format("projects/%s/issues/%s", project, iid);
     return client.getResource(path, Issue.class);
+  }
+
+  public Collection<Issue> getIssues(String id) {
+    return getIssues(String.valueOf(id));
+  }
+
+  public Collection<Issue> getIssues(int project) {
   }
 
   public MergeRequest getMergeRequest(int project, int iid) throws IOException {
