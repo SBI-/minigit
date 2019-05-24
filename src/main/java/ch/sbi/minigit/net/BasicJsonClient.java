@@ -27,17 +27,9 @@ public final class BasicJsonClient implements JsonClient {
   @Override
   public <T> Collection<T> getResources(String path, Class<T[]> type) throws IOException {
     Collection<T> result = new ArrayList<>();
-    LinkHeader header = initialize(path);
-    for (String url = header.getFirst(); url != null; url = header.getNext()) {
-      HttpURLConnection c = ConnectionFactory.getHttpConnection(url, properties);
-      c.connect();
 
-      try (InputStreamReader reader = new InputStreamReader(c.getInputStream())) {
-        T[] t = gson.fromJson(reader, type);
-        result.addAll(Arrays.asList(t));
-      }
-
-      header = new LinkHeader(c.getHeaderField("Link"));
+    for (Collection<T> collection : this.iterateResource(path, type)) {
+      result.addAll(collection);
     }
 
     return result;
