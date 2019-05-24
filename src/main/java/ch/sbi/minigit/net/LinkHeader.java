@@ -37,4 +37,11 @@ public class LinkHeader {
   public String getFirst() {
     return links.get("first");
   }
+
+  @Override
+  public String toString() {
+    return "LinkHeader{" +
+        "links=" + links +
+        '}';
+  }
 }

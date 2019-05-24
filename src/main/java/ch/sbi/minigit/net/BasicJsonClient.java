@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 /** Separated into a class for later dependency injection */
@@ -43,10 +44,15 @@ public final class BasicJsonClient implements JsonClient {
   }
 
   @Override
-  public <T> Iterable<Collection<T>> iterateResource(String path, Class<T[]> type)
+  public <T> Iterable<Collection<T>> iterateResource(String path, final Class<T[]> type)
       throws IOException {
-    String endpoint = String.format("%s/%s", baseUrl, path);
-    return new LinkIterator<>(type, endpoint, properties);
+    final LinkHeader start = initialize(path);
+    return new Iterable<Collection<T>>() {
+      @Override
+      public Iterator<Collection<T>> iterator() {
+        return new LinkIterator<>(start, properties, type);
+      }
+    };
   }
 
   private LinkHeader initialize(String path) throws IOException {
