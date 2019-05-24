@@ -25,11 +25,6 @@ public final class GitlabApi {
             .create();
   }
 
-  /*
-   * keep this in mind when dealing with collections:
-   * https://stackoverflow.com/questions/18544133/parsing-json-array-into-java-util-list-with-gson
-   */
-
   public Issue getIssue(int project, int iid) throws IOException {
     String path = String.format("projects/%s/issues/%s", project, iid);
     return client.getResource(path, Issue.class);
