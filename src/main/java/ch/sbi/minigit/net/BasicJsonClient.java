@@ -43,7 +43,8 @@ public final class BasicJsonClient implements JsonClient {
   }
 
   @Override
-  public <T> Iterable<Collection<T>> iterateResource(String path, Class<T[]> type) throws IOException {
+  public <T> Iterable<Collection<T>> iterateResource(String path, Class<T[]> type)
+      throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
     return new LinkIterator<>(type, endpoint, properties);
   }

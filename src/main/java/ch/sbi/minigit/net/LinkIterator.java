@@ -14,10 +14,9 @@ import java.util.Map;
 public class LinkIterator<T> implements Iterable<Collection<T>> {
 
   // not final because this is what we use to iterate on
-  private LinkHeader currentLinks;
+  private final LinkHeader start;
   private final Class<T[]> type;
   private final Map<String, String> properties;
-  private final Gson gson = new GsonBuilder().create();
 
   public LinkIterator(Class<T[]> type, String startUrl, Map<String, String> properties)
       throws IOException {
@@ -27,7 +26,7 @@ public class LinkIterator<T> implements Iterable<Collection<T>> {
     // size, which is what we will be iterating on.
     HttpURLConnection connection = ConnectionFactory.getHttpConnection(startUrl, properties);
     connection.connect();
-    this.currentLinks = new LinkHeader(connection.getHeaderField("Link"));
+    this.start = new LinkHeader(connection.getHeaderField("Link"));
   }
 
   public LinkIterator(Class<T[]> type, String startUrl) throws IOException {
@@ -36,34 +35,49 @@ public class LinkIterator<T> implements Iterable<Collection<T>> {
 
   @Override
   public Iterator<Collection<T>> iterator() {
-    return new Iterator<Collection<T>>() {
-      @Override
-      public boolean hasNext() {
-        return currentLinks.hasNext();
-      }
+    return new InternalIterator<>(start, properties, type);
+  }
 
-      @Override
-      public Collection<T> next() {
-        try {
-          HttpURLConnection connection =
-              ConnectionFactory.getHttpConnection(currentLinks.getNext(), properties);
-          connection.connect();
-          currentLinks = new LinkHeader(connection.getHeaderField("Link"));
+  private static class InternalIterator<T> implements Iterator<Collection<T>> {
+    private final Gson gson = new GsonBuilder().create();
 
-          try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
-            T[] ts = gson.fromJson(reader, type);
-            return Arrays.asList(ts);
-          }
+    private String next;
+    private final Map<String, String> properties;
+    private final Class<T[]> type;
 
-        } catch (IOException e) {
-          throw new RuntimeException(e);
+    public InternalIterator(LinkHeader start, Map<String, String> properties, Class<T[]> type) {
+      next = start.getFirst();
+      this.properties = properties;
+      this.type = type;
+    }
+
+    @Override
+    public boolean hasNext() {
+      return next != null;
+    }
+
+    @Override
+    public Collection<T> next() {
+      try {
+        HttpURLConnection connection = ConnectionFactory.getHttpConnection(next, properties);
+        connection.connect();
+        LinkHeader links = new LinkHeader(connection.getHeaderField("Link"));
+        next = links.getNext();
+
+        try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
+          T[] ts = gson.fromJson(reader, type);
+          return Arrays.asList(ts);
         }
-      }
 
-      @Override
-      public void remove() {
-        throw new UnsupportedOperationException();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
-    };
+    }
+
+    @Override
+    public void remove() {
+      // this method can be removed once all dependent APIs are Java 8
+      throw new UnsupportedOperationException();
+    }
   }
 }
