@@ -40,8 +40,6 @@ public class LinkHeader {
 
   @Override
   public String toString() {
-    return "LinkHeader{" +
-        "links=" + links +
-        '}';
+    return "LinkHeader{" + "links=" + links + '}';
   }
 }

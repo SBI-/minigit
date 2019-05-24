@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -47,17 +46,6 @@ public final class BasicJsonClient implements JsonClient {
     };
   }
 
-  private LinkHeader initialize(String path) throws IOException {
-    String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint, properties);
-    connection.connect();
-
-    // read out some header information first
-    // we only want to work with the actual header navigation
-    LinkHeader header = new LinkHeader(connection.getHeaderField("Link"));
-    return header;
-  }
-
   @Override
   public <T> T getResource(String path, Class<T> type) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
@@ -67,5 +55,16 @@ public final class BasicJsonClient implements JsonClient {
     try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
       return gson.fromJson(reader, type);
     }
+  }
+
+  private LinkHeader initialize(String path) throws IOException {
+    String endpoint = String.format("%s/%s", baseUrl, path);
+    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint, properties);
+    connection.connect();
+
+    // read out some header information first
+    // we only want to work with the actual header navigation
+    LinkHeader header = new LinkHeader(connection.getHeaderField("Link"));
+    return header;
   }
 }
