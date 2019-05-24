@@ -22,7 +22,19 @@ public class LinkHeader {
     }
   }
 
-  public Map<String, String> getLinks() {
-    return links;
+  public boolean hasNext() {
+    return links.containsKey("next");
+  }
+
+  public boolean hasFirst() {
+    return links.containsKey("first");
+  }
+
+  public String getNext() {
+    return links.get("next");
+  }
+
+  public String getFirst() {
+    return links.get("first");
   }
 }
