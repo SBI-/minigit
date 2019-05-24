@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class LinkIterator<T> implements Iterable<Collection<T>> {
@@ -20,7 +19,8 @@ public class LinkIterator<T> implements Iterable<Collection<T>> {
   private final Map<String, String> properties;
   private final Gson gson = new GsonBuilder().create();
 
-  public LinkIterator(Class<T[]> type, String startUrl, Map<String, String> properties) throws IOException {
+  public LinkIterator(Class<T[]> type, String startUrl, Map<String, String> properties)
+      throws IOException {
     this.type = type;
     this.properties = properties;
     // we want to start out with the first projects page. This will dictate pagination
@@ -45,7 +45,8 @@ public class LinkIterator<T> implements Iterable<Collection<T>> {
       @Override
       public Collection<T> next() {
         try {
-          HttpURLConnection connection = ConnectionFactory.getHttpConnection(currentLinks.getNext(), properties);
+          HttpURLConnection connection =
+              ConnectionFactory.getHttpConnection(currentLinks.getNext(), properties);
           connection.connect();
           currentLinks = new LinkHeader(connection.getHeaderField("Link"));
 

@@ -7,5 +7,7 @@ public interface JsonClient {
 
   <T> Collection<T> getResources(String path, Class<T[]> type) throws IOException;
 
+  <T> Iterable<Collection<T>> iterateResource(String path, Class<T[]> type) throws IOException;
+
   <T> T getResource(String path, Class<T> type) throws IOException;
 }
