@@ -2,13 +2,17 @@ package ch.sbi.minigit.net;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /** Separated into a class for later dependency injection */
@@ -24,7 +28,9 @@ public final class BasicJsonClient implements JsonClient {
     this.properties = properties;
   }
 
+  @Override
   public <T> Collection<T> getResources(String path, Class<T> type) throws IOException {
+    Collection<T> result = new ArrayList<>();
     String endpoint = String.format("%s/%s", baseUrl, path);
     HttpURLConnection connection = getHttpConnection(endpoint);
     addRequestProperties(connection);
@@ -34,11 +40,22 @@ public final class BasicJsonClient implements JsonClient {
     // we only want to work with the actual header navigation
     LinkHeader header = new LinkHeader(connection.getHeaderField("Link"));
 
-    try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
-      T t = gson.fromJson(reader, type);
+    Type listType = new TypeToken<ArrayList<T>>() {}.getType();
+
+    for (String url = header.getFirst(); url != null; url = header.getNext()) {
+      HttpURLConnection c = getHttpConnection(url);
+      addRequestProperties(c);
+      c.connect();
+
+      try (InputStreamReader reader = new InputStreamReader(c.getInputStream())) {
+        List<T> list = gson.fromJson(reader, listType);
+        result.addAll(list);
+      }
+
+      header = new LinkHeader(c.getHeaderField("Link"));
     }
 
-    return Collections.emptyList();
+    return result;
   }
 
   @Override

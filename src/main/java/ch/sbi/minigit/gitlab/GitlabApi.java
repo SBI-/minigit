@@ -36,12 +36,13 @@ public final class GitlabApi {
     return client.getResource(path, Issue.class);
   }
 
-  public Collection<Issue> getIssues(String id) {
-    return getIssues(String.valueOf(id));
+  public Collection<Issue> getIssues(String id) throws IOException {
+    String path = String.format("projects/%s/issues", id);
+    return client.getResources(path, Issue.class);
   }
 
-  public Collection<Issue> getIssues(int project) {
-    return Collections.emptyList();
+  public Collection<Issue> getIssues(int project) throws IOException {
+    return getIssues(String.valueOf(project));
   }
 
   public MergeRequest getMergeRequest(int project, int iid) throws IOException {
