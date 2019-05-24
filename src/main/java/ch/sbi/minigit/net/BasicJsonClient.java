@@ -5,11 +5,10 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /** Separated into a class for later dependency injection */
@@ -30,8 +29,8 @@ public final class BasicJsonClient implements JsonClient {
     Collection<T> result = new ArrayList<>();
     LinkHeader header = initialize(path);
     for (String url = header.getFirst(); url != null; url = header.getNext()) {
-      HttpURLConnection c = getHttpConnection(url);
-      addRequestProperties(c);
+      HttpURLConnection c = ConnectionFactory.getHttpConnection(url);
+      ConnectionFactory.addRequestProperties(c, properties);
       c.connect();
 
       try (InputStreamReader reader = new InputStreamReader(c.getInputStream())) {
@@ -45,10 +44,14 @@ public final class BasicJsonClient implements JsonClient {
     return result;
   }
 
+  public <T> Iterable<T> iterateResource(String path, Class<T[]> type) throws IOException {
+    return Collections.emptyList();
+  }
+
   private LinkHeader initialize(String path) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = getHttpConnection(endpoint);
-    addRequestProperties(connection);
+    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint);
+    ConnectionFactory.addRequestProperties(connection, properties);
     connection.connect();
 
     // read out some header information first
@@ -60,39 +63,12 @@ public final class BasicJsonClient implements JsonClient {
   @Override
   public <T> T getResource(String path, Class<T> type) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = getHttpConnection(endpoint);
-    addRequestProperties(connection);
+    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint);
+    ConnectionFactory.addRequestProperties(connection, properties);
     connection.connect();
 
     try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
       return gson.fromJson(reader, type);
-    }
-  }
-
-  private HttpURLConnection getHttpConnection(String endpoint) throws IOException {
-    /**
-     * As you can see from java.net.HttpUrlConnection, header field 0 (aka null) in a http call is
-     * always the status line. Yep. I'm not even kidding. It gets indexed like that in the map.
-     *
-     * <p>Because of this, We will want to work with HttpUrlConnections from here on forwards. For
-     * now, I think this cast will always be safe when working with rest apis.
-     */
-    URL url = new URL(endpoint);
-    URLConnection connection = url.openConnection();
-
-    if (!(connection instanceof HttpURLConnection)) {
-      throw new IllegalArgumentException(String.format("%s is not a valid http endpoint", baseUrl));
-    }
-
-    return (HttpURLConnection) connection;
-  }
-
-  private void addRequestProperties(URLConnection connection) {
-    connection.setAllowUserInteraction(false);
-    // TODO: Think about setting a sane timeout somewhere. However, some external git service
-    // TODO: calls can take an extremely long time.
-    for (String key : properties.keySet()) {
-      connection.addRequestProperty(key, properties.get(key));
     }
   }
 }
