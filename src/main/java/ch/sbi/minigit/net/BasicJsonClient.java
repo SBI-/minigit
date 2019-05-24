@@ -29,8 +29,7 @@ public final class BasicJsonClient implements JsonClient {
     Collection<T> result = new ArrayList<>();
     LinkHeader header = initialize(path);
     for (String url = header.getFirst(); url != null; url = header.getNext()) {
-      HttpURLConnection c = ConnectionFactory.getHttpConnection(url);
-      ConnectionFactory.addRequestProperties(c, properties);
+      HttpURLConnection c = ConnectionFactory.getHttpConnection(url, properties);
       c.connect();
 
       try (InputStreamReader reader = new InputStreamReader(c.getInputStream())) {
@@ -50,8 +49,7 @@ public final class BasicJsonClient implements JsonClient {
 
   private LinkHeader initialize(String path) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint);
-    ConnectionFactory.addRequestProperties(connection, properties);
+    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint, properties);
     connection.connect();
 
     // read out some header information first
@@ -63,8 +61,7 @@ public final class BasicJsonClient implements JsonClient {
   @Override
   public <T> T getResource(String path, Class<T> type) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint);
-    ConnectionFactory.addRequestProperties(connection, properties);
+    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint, properties);
     connection.connect();
 
     try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
