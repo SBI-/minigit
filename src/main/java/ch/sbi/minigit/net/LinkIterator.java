@@ -1,13 +1,18 @@
 package ch.sbi.minigit.net;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 
 public class LinkIterator implements Iterable<String> {
 
-  public LinkIterator(String startUrl) {
+  public LinkIterator(String startUrl, Map<String, String> properties) {
     // we want to start out with the first projects page. This will dictate pagination
     // size, which is what we will be iterating on.
+  }
 
+  public LinkIterator(String startUrl) {
+    this(startUrl, Collections.EMPTY_MAP);
   }
 
   @Override
