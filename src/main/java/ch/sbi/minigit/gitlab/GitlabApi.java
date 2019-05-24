@@ -37,7 +37,7 @@ public final class GitlabApi {
 
   public Collection<Issue> getIssues(String id) throws IOException {
     String path = String.format("projects/%s/issues", id);
-    return client.getResources(path, Issue.class);
+    return client.getResources(path, Issue[].class);
   }
 
   public Collection<Issue> getIssues(int project) throws IOException {

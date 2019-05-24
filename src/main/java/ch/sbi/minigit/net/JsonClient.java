@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public interface JsonClient {
 
-  <T> Collection<T> getResources(String path, Class<T> type) throws IOException;
+  <T> Collection<T> getResources(String path, Class<T[]> type) throws IOException;
 
   <T> T getResource(String path, Class<T> type) throws IOException;
 }

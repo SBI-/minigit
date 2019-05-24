@@ -2,16 +2,15 @@ package ch.sbi.minigit.net;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 
 /** Separated into a class for later dependency injection */
@@ -28,10 +27,8 @@ public final class BasicJsonClient implements JsonClient {
   }
 
   @Override
-  public <T> Collection<T> getResources(String path, Class<T> type) throws IOException {
+  public <T> Collection<T> getResources(String path, Class<T[]> type) throws IOException {
     Collection<T> result = new ArrayList<>();
-    Type resultType = new TypeToken<ArrayList<T>>() {}.getType();
-
     LinkHeader header = initialize(path);
     for (String url = header.getFirst(); url != null; url = header.getNext()) {
       HttpURLConnection c = getHttpConnection(url);
@@ -39,8 +36,8 @@ public final class BasicJsonClient implements JsonClient {
       c.connect();
 
       try (InputStreamReader reader = new InputStreamReader(c.getInputStream())) {
-        List<T> list = gson.fromJson(reader, resultType);
-        result.addAll(list);
+        T[] t = gson.fromJson(reader, type);
+        result.addAll(Arrays.asList(t));
       }
 
       header = new LinkHeader(c.getHeaderField("Link"));
