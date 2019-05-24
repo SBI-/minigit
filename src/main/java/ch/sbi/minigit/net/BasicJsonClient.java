@@ -27,20 +27,19 @@ public final class BasicJsonClient implements JsonClient {
   public <T> Collection<T> getResources(String path, Class<T[]> type) throws IOException {
     Collection<T> result = new ArrayList<>();
 
-    for (Collection<T> collection : this.iterateResource(path, type)) {
-      result.addAll(collection);
+    for (T t : iterateResource(path, type)) {
+      result.add(t);
     }
 
     return result;
   }
 
   @Override
-  public <T> Iterable<Collection<T>> iterateResource(String path, final Class<T[]> type)
-      throws IOException {
+  public <T> Iterable<T> iterateResource(String path, final Class<T[]> type) throws IOException {
     final LinkHeader start = initialize(path);
-    return new Iterable<Collection<T>>() {
+    return new Iterable<T>() {
       @Override
-      public Iterator<Collection<T>> iterator() {
+      public Iterator<T> iterator() {
         return new LinkIterator<>(start, properties, type);
       }
     };

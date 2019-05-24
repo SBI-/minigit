@@ -39,12 +39,12 @@ public final class GitlabApi {
     return getIssues(String.valueOf(project));
   }
 
-  public Iterable<Collection<Issue>> iterateIssues(String project) throws IOException {
+  public Iterable<Issue> iterateIssues(String project) throws IOException {
     String path = String.format("projects/%s/issues", project);
     return client.iterateResource(path, Issue[].class);
   }
 
-  public Iterable<Collection<Issue>> iterateIssues(int id) throws IOException {
+  public Iterable<Issue> iterateIssues(int id) throws IOException {
     return iterateIssues(String.valueOf(id));
   }
 
