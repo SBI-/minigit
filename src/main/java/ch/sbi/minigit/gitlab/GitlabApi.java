@@ -9,7 +9,6 @@ import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 
 public final class GitlabApi {
   private final JsonClient client;

@@ -11,7 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +30,26 @@ public final class BasicJsonClient implements JsonClient {
   @Override
   public <T> Collection<T> getResources(String path, Class<T> type) throws IOException {
     Collection<T> result = new ArrayList<>();
+    Type resultType = new TypeToken<ArrayList<T>>() {}.getType();
+
+    LinkHeader header = initialize(path);
+    for (String url = header.getFirst(); url != null; url = header.getNext()) {
+      HttpURLConnection c = getHttpConnection(url);
+      addRequestProperties(c);
+      c.connect();
+
+      try (InputStreamReader reader = new InputStreamReader(c.getInputStream())) {
+        List<T> list = gson.fromJson(reader, resultType);
+        result.addAll(list);
+      }
+
+      header = new LinkHeader(c.getHeaderField("Link"));
+    }
+
+    return result;
+  }
+
+  private LinkHeader initialize(String path) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
     HttpURLConnection connection = getHttpConnection(endpoint);
     addRequestProperties(connection);
@@ -39,23 +58,7 @@ public final class BasicJsonClient implements JsonClient {
     // read out some header information first
     // we only want to work with the actual header navigation
     LinkHeader header = new LinkHeader(connection.getHeaderField("Link"));
-
-    Type listType = new TypeToken<ArrayList<T>>() {}.getType();
-
-    for (String url = header.getFirst(); url != null; url = header.getNext()) {
-      HttpURLConnection c = getHttpConnection(url);
-      addRequestProperties(c);
-      c.connect();
-
-      try (InputStreamReader reader = new InputStreamReader(c.getInputStream())) {
-        List<T> list = gson.fromJson(reader, listType);
-        result.addAll(list);
-      }
-
-      header = new LinkHeader(c.getHeaderField("Link"));
-    }
-
-    return result;
+    return header;
   }
 
   @Override
