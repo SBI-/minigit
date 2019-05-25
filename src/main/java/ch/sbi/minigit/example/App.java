@@ -3,7 +3,7 @@ package ch.sbi.minigit.example;
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 
 public class App {
   public static void main(String[] args) throws Exception {
@@ -34,24 +34,23 @@ public class App {
 
     ArrayList<Issue> result = new ArrayList<>();
 
-    for (Collection<Issue> page : api.iterateIssues(13027)) {
-      result.addAll(page);
+    for (Issue issue : api.iterateIssues(13027)) {
+      result.add(issue);
     }
 
     System.out.println(result.size());
 
     System.out.println(api.getIssues(13027).size());
 
-    //    System.out.println(new Date());
-    //
-    //    pages = api.iterateIssues(131);
-    //    issues = new ArrayList<>();
-    //
-    //    for (Collection<Issue> page : pages) {
-    //      issues.addAll(page);
-    //    }
-    //
-    //    System.out.println(new Date());
-    //    System.out.println(issues.size());
+    System.out.println(new Date());
+
+    result = new ArrayList<>();
+
+    for (Issue issue : api.iterateIssues(131)) {
+      result.add(issue);
+    }
+
+    System.out.println(new Date());
+    System.out.println(result.size());
   }
 }
