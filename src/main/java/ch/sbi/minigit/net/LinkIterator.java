@@ -14,7 +14,7 @@ public class LinkIterator<T> implements Iterator<T> {
   private final Gson gson = new GsonBuilder().create();
 
   private String next;
-  private Iterator<T> current = (Iterator<T>) Collections.emptyList().iterator();
+  private Iterator<T> current = Collections.emptyIterator();
   private final Map<String, String> properties;
   private final Class<T[]> type;
 
