@@ -25,6 +25,12 @@ public final class GitlabApi {
             .create();
   }
 
+  public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
+      throws IOException {
+    String path = String.format("projects/%s/%s", resource);
+    return client.iterateResource(path, type);
+  }
+
   public Issue getIssue(int project, int iid) throws IOException {
     String path = String.format("projects/%s/issues/%s", project, iid);
     return client.getResource(path, Issue.class);
