@@ -53,6 +53,24 @@ public final class GitlabApi {
     return client.getResource(path, MergeRequest.class);
   }
 
+  public Collection<MergeRequest> getMergeRequests(String id) throws IOException {
+    String path = String.format("projects/%s/merge_requests", id);
+    return client.getResources(path, MergeRequest[].class);
+  }
+
+  public Collection<MergeRequest> getMergeRequests(int project) throws IOException {
+    return getMergeRequests(String.valueOf(project));
+  }
+
+  public Iterable<MergeRequest> iterateMergeRequests(String project) throws IOException {
+    String path = String.format("projects/%s/merge_requests", project);
+    return client.iterateResource(path, MergeRequest[].class);
+  }
+
+  public Iterable<MergeRequest> iterateMergeRequests(int id) throws IOException {
+    return iterateMergeRequests(String.valueOf(id));
+  }
+
   public Commit getCommit(int project, String sha) throws IOException {
     String path = String.format("projects/%s/repository/commits/%s", project, sha);
     return client.getResource(path, Commit.class);
