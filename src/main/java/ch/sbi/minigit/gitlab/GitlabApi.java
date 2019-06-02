@@ -8,6 +8,7 @@ import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
+import java.util.Collection;
 
 public final class GitlabApi {
   private final JsonClient client;
@@ -24,19 +25,56 @@ public final class GitlabApi {
             .create();
   }
 
-  /*
-   * keep this in mind when dealing with collections:
-   * https://stackoverflow.com/questions/18544133/parsing-json-array-into-java-util-list-with-gson
-   */
+  public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
+      throws IOException {
+    String path = String.format("projects/%s/%s", project, resource);
+    return client.iterateResource(path, type);
+  }
 
   public Issue getIssue(int project, int iid) throws IOException {
     String path = String.format("projects/%s/issues/%s", project, iid);
     return client.getResource(path, Issue.class);
   }
 
+  public Collection<Issue> getIssues(String id) throws IOException {
+    String path = String.format("projects/%s/issues", id);
+    return client.getResources(path, Issue[].class);
+  }
+
+  public Collection<Issue> getIssues(int project) throws IOException {
+    return getIssues(String.valueOf(project));
+  }
+
+  public Iterable<Issue> iterateIssues(String project) throws IOException {
+    String path = String.format("projects/%s/issues", project);
+    return client.iterateResource(path, Issue[].class);
+  }
+
+  public Iterable<Issue> iterateIssues(int id) throws IOException {
+    return iterateIssues(String.valueOf(id));
+  }
+
   public MergeRequest getMergeRequest(int project, int iid) throws IOException {
     String path = String.format("projects/%s/merge_requests/%s", project, iid);
     return client.getResource(path, MergeRequest.class);
+  }
+
+  public Collection<MergeRequest> getMergeRequests(String id) throws IOException {
+    String path = String.format("projects/%s/merge_requests", id);
+    return client.getResources(path, MergeRequest[].class);
+  }
+
+  public Collection<MergeRequest> getMergeRequests(int project) throws IOException {
+    return getMergeRequests(String.valueOf(project));
+  }
+
+  public Iterable<MergeRequest> iterateMergeRequests(String project) throws IOException {
+    String path = String.format("projects/%s/merge_requests", project);
+    return client.iterateResource(path, MergeRequest[].class);
+  }
+
+  public Iterable<MergeRequest> iterateMergeRequests(int id) throws IOException {
+    return iterateMergeRequests(String.valueOf(id));
   }
 
   public Commit getCommit(int project, String sha) throws IOException {
