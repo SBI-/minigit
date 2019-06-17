@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class LinkHeader {
 
-  private Map<String, String> links = new HashMap<>();
+  private final Map<String, String> links = new HashMap<>();
 
   public LinkHeader(String header) {
     if (header == null) {

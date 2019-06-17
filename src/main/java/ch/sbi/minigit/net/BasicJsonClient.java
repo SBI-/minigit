@@ -63,7 +63,6 @@ public final class BasicJsonClient implements JsonClient {
 
     // read out some header information first
     // we only want to work with the actual header navigation
-    LinkHeader header = new LinkHeader(connection.getHeaderField("Link"));
-    return header;
+    return new LinkHeader(connection.getHeaderField("Link"));
   }
 }
