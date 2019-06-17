@@ -33,10 +33,6 @@ public class ConnectionFactory {
     return httpConnection;
   }
 
-  public static HttpURLConnection getHttpConnection(String endpoint) throws IOException {
-    return ConnectionFactory.getHttpConnection(endpoint, Collections.EMPTY_MAP);
-  }
-
   private static void addRequestProperties(
       URLConnection connection, Map<String, String> properties) {
     connection.setAllowUserInteraction(false);
