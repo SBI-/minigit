@@ -32,6 +32,8 @@ public final class GitlabApi {
       builder.addRequestProperty("Private-Token", token);
     }
 
+    builder.setTimeOut(timeout);
+
     client = builder.create();
   }
 
