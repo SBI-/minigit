@@ -35,10 +35,7 @@ public class ConnectionFactory {
   private static void addRequestProperties(
       URLConnection connection, Map<String, String> properties, int timeout) {
     connection.setAllowUserInteraction(false);
-    System.out.println(String.format("Connection timeout: %s", connection.getConnectTimeout()));
-    //    connection.setConnectTimeout(1000);
-    // TODO: Think about setting a sane timeout somewhere. However, some external git service
-    // TODO: calls can take an extremely long time.
+    connection.setConnectTimeout(timeout);
     for (String key : properties.keySet()) {
       connection.addRequestProperty(key, properties.get(key));
     }
