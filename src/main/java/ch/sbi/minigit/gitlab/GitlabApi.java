@@ -13,16 +13,26 @@ import java.util.Collection;
 public final class GitlabApi {
   private final JsonClient client;
 
+  public GitlabApi(String host, int timeout) {
+    this(host, null, timeout);
+  }
+
   public GitlabApi(String host) {
-    client = new BasicJsonBuilder().setService(host + "/api/v4").create();
+    this(host, null, 0);
   }
 
   public GitlabApi(String host, String token) {
-    client =
-        new BasicJsonBuilder()
-            .setService(host + "/api/v4")
-            .addRequestProperty("Private-Token", token)
-            .create();
+    this(host, token, 0);
+  }
+
+  public GitlabApi(String host, String token, int timeout) {
+    BasicJsonBuilder builder = new BasicJsonBuilder().setService(host + "/api/v4");
+
+    if (token != null) {
+      builder.addRequestProperty("Private-Token", token);
+    }
+
+    client = builder.create();
   }
 
   public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)

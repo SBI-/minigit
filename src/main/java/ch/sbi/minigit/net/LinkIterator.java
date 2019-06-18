@@ -31,7 +31,7 @@ public class LinkIterator<T> implements Iterator<T> {
 
   private Iterator<T> getNextPage() {
     try {
-      HttpURLConnection connection = ConnectionFactory.getHttpConnection(next, properties);
+      HttpURLConnection connection = ConnectionFactory.getHttpConnection(next, properties, 0);
       connection.connect();
       LinkHeader links = new LinkHeader(connection.getHeaderField("Link"));
       next = links.getNext();

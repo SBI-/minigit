@@ -15,12 +15,14 @@ public final class BasicJsonClient implements JsonClient {
 
   private final String baseUrl;
   private final Map<String, String> properties;
+  private int timeout;
   private final Gson gson = new GsonBuilder().create();
 
   // explicitly package private
-  BasicJsonClient(String baseUrl, Map<String, String> properties) {
+  BasicJsonClient(String baseUrl, Map<String, String> properties, int timeout) {
     this.baseUrl = baseUrl;
     this.properties = properties;
+    this.timeout = timeout;
   }
 
   @Override
@@ -48,7 +50,8 @@ public final class BasicJsonClient implements JsonClient {
   @Override
   public <T> T getResource(String path, Class<T> type) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint, properties);
+    HttpURLConnection connection =
+        ConnectionFactory.getHttpConnection(endpoint, properties, timeout);
     connection.connect();
 
     try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
@@ -58,7 +61,8 @@ public final class BasicJsonClient implements JsonClient {
 
   private LinkHeader initialize(String path) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = ConnectionFactory.getHttpConnection(endpoint, properties);
+    HttpURLConnection connection =
+        ConnectionFactory.getHttpConnection(endpoint, properties, timeout);
     connection.connect();
 
     // read out some header information first
