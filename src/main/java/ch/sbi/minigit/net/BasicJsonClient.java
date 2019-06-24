@@ -50,8 +50,7 @@ public final class BasicJsonClient implements JsonClient {
   @Override
   public <T> T getResource(String path, Class<T> type) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection =
-        ConnectionFactory.getHttpConnection(endpoint, properties, timeout);
+    HttpURLConnection connection = ConnectionFactory.getConnection(endpoint, properties, timeout);
     connection.connect();
 
     try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
@@ -61,8 +60,7 @@ public final class BasicJsonClient implements JsonClient {
 
   private LinkHeader initialize(String path) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection =
-        ConnectionFactory.getHttpConnection(endpoint, properties, timeout);
+    HttpURLConnection connection = ConnectionFactory.getConnection(endpoint, properties, timeout);
     connection.connect();
 
     // read out some header information first

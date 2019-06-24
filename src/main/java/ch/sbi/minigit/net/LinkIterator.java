@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -31,7 +31,7 @@ public class LinkIterator<T> implements Iterator<T> {
 
   private Iterator<T> getNextPage() {
     try {
-      HttpURLConnection connection = ConnectionFactory.getHttpConnection(next, properties, 0);
+      URLConnection connection = ConnectionFactory.getConnection(next, properties, 0);
       connection.connect();
       LinkHeader links = new LinkHeader(connection.getHeaderField("Link"));
       next = links.getNext();

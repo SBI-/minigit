@@ -10,7 +10,7 @@ public class ConnectionFactory {
 
   private ConnectionFactory() {}
 
-  public static HttpURLConnection getHttpConnection(
+  public static HttpURLConnection getConnection(
       String endpoint, Map<String, String> properties, int timeout) throws IOException {
     /**
      * As you can see from java.net.HttpUrlConnection, header field 0 (aka null) in a http call is
