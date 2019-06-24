@@ -33,9 +33,6 @@
   </dependencies>
 
   <build>
-    <finalName>
-      minigit-${project.version}
-    </finalName>
     <plugins>
       <plugin>
         <groupId>com.coveo</groupId>
