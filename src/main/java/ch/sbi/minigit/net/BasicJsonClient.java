@@ -4,25 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
-/** Separated into a class for later dependency injection */
 public final class BasicJsonClient implements JsonClient {
 
   private final String baseUrl;
-  private final Map<String, String> properties;
-  private int timeout;
+  private ConnectionFactory connectionFactory;
   private final Gson gson = new GsonBuilder().create();
 
-  // explicitly package private
-  BasicJsonClient(String baseUrl, Map<String, String> properties, int timeout) {
+  public BasicJsonClient(String baseUrl, ConnectionFactory connectionFactory) {
     this.baseUrl = baseUrl;
-    this.properties = properties;
-    this.timeout = timeout;
+    this.connectionFactory = connectionFactory;
   }
 
   @Override
@@ -42,7 +37,7 @@ public final class BasicJsonClient implements JsonClient {
     return new Iterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return new LinkIterator<>(start, properties, type);
+        return new LinkIterator<>(start, connectionFactory, type);
       }
     };
   }
@@ -50,8 +45,7 @@ public final class BasicJsonClient implements JsonClient {
   @Override
   public <T> T getResource(String path, Class<T> type) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection =
-        ConnectionFactory.getHttpConnection(endpoint, properties, timeout);
+    URLConnection connection = connectionFactory.getConnection(endpoint);
     connection.connect();
 
     try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
@@ -61,8 +55,7 @@ public final class BasicJsonClient implements JsonClient {
 
   private LinkHeader initialize(String path) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection =
-        ConnectionFactory.getHttpConnection(endpoint, properties, timeout);
+    URLConnection connection = connectionFactory.getConnection(endpoint);
     connection.connect();
 
     // read out some header information first

@@ -1,6 +1,5 @@
 package ch.sbi.minigit.gitlab;
 
-import ch.sbi.minigit.net.BasicJsonBuilder;
 import ch.sbi.minigit.net.JsonClient;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
@@ -13,28 +12,8 @@ import java.util.Collection;
 public final class GitlabApi {
   private final JsonClient client;
 
-  public GitlabApi(String host, int timeout) {
-    this(host, null, timeout);
-  }
-
-  public GitlabApi(String host) {
-    this(host, null, 0);
-  }
-
-  public GitlabApi(String host, String token) {
-    this(host, token, 0);
-  }
-
-  public GitlabApi(String host, String token, int timeout) {
-    BasicJsonBuilder builder = new BasicJsonBuilder().setService(host + "/api/v4");
-
-    if (token != null) {
-      builder.addRequestProperty("Private-Token", token);
-    }
-
-    builder.setTimeOut(timeout);
-
-    client = builder.create();
+  GitlabApi(JsonClient client) {
+    this.client = client;
   }
 
   public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
