@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -50,7 +50,8 @@ public final class BasicJsonClient implements JsonClient {
   @Override
   public <T> T getResource(String path, Class<T> type) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = ConnectionFactory.getConnection(endpoint, properties, timeout);
+    URLConnection connection =
+        new HttpConnectionFactory().getConnection(endpoint, properties, timeout);
     connection.connect();
 
     try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
@@ -60,7 +61,8 @@ public final class BasicJsonClient implements JsonClient {
 
   private LinkHeader initialize(String path) throws IOException {
     String endpoint = String.format("%s/%s", baseUrl, path);
-    HttpURLConnection connection = ConnectionFactory.getConnection(endpoint, properties, timeout);
+    URLConnection connection =
+        new HttpConnectionFactory().getConnection(endpoint, properties, timeout);
     connection.connect();
 
     // read out some header information first
