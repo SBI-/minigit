@@ -23,7 +23,6 @@ public class XmlListAnnotator extends AbstractAnnotator {
       field.annotate(XmlElementWrapper.class).param("name", propertyName);
       String name = propertyName.substring(0, propertyName.length() - 1);
       field.annotate(XmlElement.class).param("name", name);
-      field.type().boxify().binaryName();
     }
   }
 }
