@@ -5,5 +5,5 @@ import java.net.URLConnection;
 
 public interface ConnectionFactory {
 
-  public URLConnection getConnection(String endpoint) throws IOException;
+  URLConnection getConnection(String endpoint) throws IOException;
 }

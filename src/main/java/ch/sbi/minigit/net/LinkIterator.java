@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class LinkIterator<T> implements Iterator<T> {
+class LinkIterator<T> implements Iterator<T> {
   private final Gson gson = new GsonBuilder().create();
 
   private String next;
@@ -17,7 +17,7 @@ public class LinkIterator<T> implements Iterator<T> {
   private ConnectionFactory connectionFactory;
   private final Class<T[]> type;
 
-  public LinkIterator(LinkHeader start, ConnectionFactory connectionFactory, Class<T[]> type) {
+  LinkIterator(LinkHeader start, ConnectionFactory connectionFactory, Class<T[]> type) {
     next = start.getFirst();
     this.connectionFactory = connectionFactory;
     this.type = type;

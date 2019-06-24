@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LinkHeader {
+class LinkHeader {
 
   private final Map<String, String> links = new HashMap<>();
 
-  public LinkHeader(String header) {
+  LinkHeader(String header) {
     if (header == null) {
       return;
     }
