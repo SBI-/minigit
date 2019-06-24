@@ -16,8 +16,7 @@ public final class BasicJsonClient implements JsonClient {
   private ConnectionFactory connectionFactory;
   private final Gson gson = new GsonBuilder().create();
 
-  // explicitly package private
-  BasicJsonClient(String baseUrl, ConnectionFactory connectionFactory) {
+  public BasicJsonClient(String baseUrl, ConnectionFactory connectionFactory) {
     this.baseUrl = baseUrl;
     this.connectionFactory = connectionFactory;
   }
