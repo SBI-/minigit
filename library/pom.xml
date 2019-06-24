@@ -2,14 +2,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.sbi.minigit</groupId>
-  <artifactId>library</artifactId>
+  <artifactId>mini-git-library</artifactId>
   <packaging>jar</packaging>
   <version>2.0.0-SNAPSHOT</version>
   <name>minigit-library</name>
 
   <parent>
-    <groupId>ch.sbi</groupId>
-    <artifactId>minigit</artifactId>
+    <groupId>ch.sbi.minigit</groupId>
+    <artifactId>parent</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
@@ -33,6 +33,9 @@
   </dependencies>
 
   <build>
+    <finalName>
+      minigit-${project.version}
+    </finalName>
     <plugins>
       <plugin>
         <groupId>com.coveo</groupId>
