@@ -8,7 +8,6 @@ import java.io.IOException;
 public final class GithubApi {
   private final JsonClient client;
 
-  /** Constructor for github enterprise, which allows different urls */
   public GithubApi(JsonClient client) {
     this.client = client;
   }

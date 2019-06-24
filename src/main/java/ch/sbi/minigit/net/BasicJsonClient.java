@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-/** Separated into a class for later dependency injection */
 public final class BasicJsonClient implements JsonClient {
 
   private final String baseUrl;
