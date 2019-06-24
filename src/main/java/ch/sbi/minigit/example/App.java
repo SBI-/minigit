@@ -1,6 +1,7 @@
 package ch.sbi.minigit.example;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabApiFactory;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,7 +31,7 @@ public class App {
     //            "User name: %s email: %s real name: %s",
     //            user.getUsername(), user.getPublicEmail(), user.getName()));
 
-    GitlabApi api = new GitlabApi("https://code.siemens.com", gitlabtoken);
+    GitlabApi api = GitlabApiFactory.getInstance("https://code.siemens.com", gitlabtoken);
 
     ArrayList<Issue> result = new ArrayList<>();
 
