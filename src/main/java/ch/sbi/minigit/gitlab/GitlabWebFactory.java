@@ -5,8 +5,8 @@ import ch.sbi.minigit.net.HttpConnectionFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GitLabWebFactory {
-  private GitLabWebFactory() {}
+public class GitlabWebFactory {
+  private GitlabWebFactory() {}
 
   public static GitlabApi getInstance(String host, int timeout) {
     return getInstance(host, null, timeout);

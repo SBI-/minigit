@@ -5,7 +5,7 @@ import ch.sbi.minigit.net.HttpConnectionFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GitHubWebFactory {
+public class GithubWebFactory {
   public static GithubApi getInstance(String token) {
     return getInstance("https://api.github.com", token);
   }
