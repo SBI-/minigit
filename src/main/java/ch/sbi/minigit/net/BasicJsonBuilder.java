@@ -28,6 +28,7 @@ public class BasicJsonBuilder {
   }
 
   public JsonClient create() {
-    return new BasicJsonClient(baseUrl, properties, timeout);
+    ConnectionFactory factory = new HttpConnectionFactory(properties, timeout);
+    return new BasicJsonClient(baseUrl, factory);
   }
 }

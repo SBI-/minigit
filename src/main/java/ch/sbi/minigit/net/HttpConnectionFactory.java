@@ -8,8 +8,15 @@ import java.util.Map;
 
 public class HttpConnectionFactory implements ConnectionFactory {
 
-  public URLConnection getConnection(String endpoint, Map<String, String> properties, int timeout)
-      throws IOException {
+  private final Map<String, String> properties;
+  private final int timeout;
+
+  public HttpConnectionFactory(Map<String, String> properties, int timeout) {
+    this.properties = properties;
+    this.timeout = timeout;
+  }
+
+  public URLConnection getConnection(String endpoint) throws IOException {
     /**
      * As you can see from java.net.HttpUrlConnection, header field 0 (aka null) in a http call is
      * always the status line. Yep. I'm not even kidding. It gets indexed like that in the map.
