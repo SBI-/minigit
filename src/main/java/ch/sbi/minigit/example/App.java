@@ -1,7 +1,7 @@
 package ch.sbi.minigit.example;
 
-import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import java.util.ArrayList;
 import java.util.Date;
