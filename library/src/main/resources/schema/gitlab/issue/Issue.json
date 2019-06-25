@@ -9,12 +9,13 @@
   "updated_at": "2018-02-13T15:00:04.293+01:00",
   "closed_at": "2018-02-15T15:00:04.293+01:00",
   "closed_by": {
-    "id": 150,
-    "name": "Huerlimann Pascal",
-    "username": "z0034uwp",
+    "id": 115,
+    "name": "Firstname Lastname username",
+    "username": "user.name",
     "state": "active",
-    "avatar_url": null,
-    "web_url": "https://code.siemens.com/z0034uwp"
+    "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/115/avatar.png",
+    "web_url": "https://gitlab.com/username",
+    "public_email": "this.is@an-email.address"
   },
   "labels": [
     "label1",
@@ -40,7 +41,8 @@
       "username": "user.name",
       "state": "active",
       "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/115/avatar.png",
-      "web_url": "https://gitlab.com/username"
+      "web_url": "https://gitlab.com/username",
+      "public_email": "this.is@an-email.address"
     }
   ],
   "author": {
@@ -49,7 +51,8 @@
     "username": "user.name",
     "state": "active",
     "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/115/avatar.png",
-    "web_url": "https://gitlab.com/username"
+    "web_url": "https://gitlab.com/username",
+    "public_email": "this.is@an-email.address"
   },
   "assignee": {
     "id": 115,
@@ -57,7 +60,8 @@
     "username": "user.name",
     "state": "active",
     "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/115/avatar.png",
-    "web_url": "https://gitlab.com/username"
+    "web_url": "https://gitlab.com/username",
+    "public_email": "this.is@an-email.address"
   },
   "user_notes_count": 23,
   "upvotes": 0,

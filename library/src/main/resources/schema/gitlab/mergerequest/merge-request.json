@@ -16,7 +16,8 @@
     "avatar_url" : "string",
     "username" : "root",
     "id" : 1,
-    "name" : "Administrator"
+    "name" : "Administrator",
+    "public_email": "this.is@an-email.address"
   },
   "assignee": {
     "state" : "active",
@@ -24,7 +25,8 @@
     "avatar_url" : "string",
     "username" : "root",
     "id" : 1,
-    "name" : "Administrator"
+    "name" : "Administrator",
+    "public_email": "this.is@an-email.address"
   },
   "source_project_id": 2,
   "target_project_id": 3,
@@ -76,7 +78,8 @@
     "avatar_url" : "string",
     "username" : "root",
     "id" : 1,
-    "name" : "Administrator"
+    "name" : "Administrator",
+    "public_email": "this.is@an-email.address"
   },
   "merged_at": "string",
   "closed_by": {
@@ -85,7 +88,8 @@
     "avatar_url" : "string",
     "username" : "root",
     "id" : 1,
-    "name" : "Administrator"
+    "name" : "Administrator",
+    "public_email": "this.is@an-email.address"
   },
   "diff_refs": {
     "base_sha": "bff9123280dadaea5f25ad7f2f01ef7604dbdadb",
