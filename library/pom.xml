@@ -30,6 +30,13 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <!-- httpclient is used by RTC internally, so this should be okay to use, however, the -->
+    <!-- version mismatch might be a problem. Will have to figure this out -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.9</version>
+    </dependency>
   </dependencies>
 
   <build>
