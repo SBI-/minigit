@@ -31,7 +31,8 @@ public class App {
     //            "User name: %s email: %s real name: %s",
     //            user.getUsername(), user.getPublicEmail(), user.getName()));
 
-    GitlabApi api = GitlabWebFactory.getInstance("https://code.siemens.com", gitlabtoken);
+    //    GitlabApi api = GitlabWebFactory.getInstance("https://code.siemens.com", gitlabtoken);
+    GitlabApi api = new GitlabWebFactory("https://code.siemens.com").setTimeout(2000).build();
 
     ArrayList<Issue> result = new ArrayList<>();
 
@@ -53,5 +54,14 @@ public class App {
 
     System.out.println(new Date());
     System.out.println(result.size());
+    //    ArrayList<NameValuePair> pairs = new ArrayList<>();
+    //    pairs.add(new BasicNameValuePair("page_size", "25"));
+    //
+    //    URIBuilder builder = new URIBuilder();
+    //    builder.setPathSegments("projects", "this is a name", "issue", "123");
+    //    builder.addParameter("created_at", null);
+    //    builder.addParameters(pairs);
+    //    URI uri = builder.build();
+    //    System.out.println(uri);
   }
 }

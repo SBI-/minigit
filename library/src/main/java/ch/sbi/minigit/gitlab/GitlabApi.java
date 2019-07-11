@@ -8,27 +8,33 @@ import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
 import java.util.Collection;
+import org.apache.http.NameValuePair;
 
 public final class GitlabApi {
-  private final JsonClient client;
 
-  GitlabApi(JsonClient client) {
+  private final Collection<NameValuePair> query;
+  private final JsonClient client;
+  private final String baseUrl;
+
+  GitlabApi(String baseUrl, Collection<NameValuePair> query, JsonClient client) {
+    this.query = query;
     this.client = client;
+    this.baseUrl = baseUrl;
   }
 
   public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
       throws IOException {
-    String path = String.format("projects/%s/%s", project, resource);
+    String path = String.format("%s/projects/%s/%s", baseUrl, project, resource);
     return client.iterateResource(path, type);
   }
 
   public Issue getIssue(int project, int iid) throws IOException {
-    String path = String.format("projects/%s/issues/%s", project, iid);
+    String path = String.format("%s/projects/%s/issues/%s", baseUrl, project, iid);
     return client.getResource(path, Issue.class);
   }
 
   public Collection<Issue> getIssues(String id) throws IOException {
-    String path = String.format("projects/%s/issues", id);
+    String path = String.format("%s/projects/%s/issues", baseUrl, id);
     return client.getResources(path, Issue[].class);
   }
 
@@ -37,7 +43,7 @@ public final class GitlabApi {
   }
 
   public Iterable<Issue> iterateIssues(String project) throws IOException {
-    String path = String.format("projects/%s/issues", project);
+    String path = String.format("%s/projects/%s/issues", baseUrl, project);
     return client.iterateResource(path, Issue[].class);
   }
 
@@ -46,12 +52,12 @@ public final class GitlabApi {
   }
 
   public MergeRequest getMergeRequest(int project, int iid) throws IOException {
-    String path = String.format("projects/%s/merge_requests/%s", project, iid);
+    String path = String.format("%s/projects/%s/merge_requests/%s", baseUrl, project, iid);
     return client.getResource(path, MergeRequest.class);
   }
 
   public Collection<MergeRequest> getMergeRequests(String id) throws IOException {
-    String path = String.format("projects/%s/merge_requests", id);
+    String path = String.format("%s/projects/%s/merge_requests", baseUrl, id);
     return client.getResources(path, MergeRequest[].class);
   }
 
@@ -60,7 +66,7 @@ public final class GitlabApi {
   }
 
   public Iterable<MergeRequest> iterateMergeRequests(String project) throws IOException {
-    String path = String.format("projects/%s/merge_requests", project);
+    String path = String.format("%s/projects/%s/merge_requests", baseUrl, project);
     return client.iterateResource(path, MergeRequest[].class);
   }
 
@@ -69,7 +75,7 @@ public final class GitlabApi {
   }
 
   public Commit getCommit(int project, String sha) throws IOException {
-    String path = String.format("projects/%s/repository/commits/%s", project, sha);
+    String path = String.format("%s/projects/%s/repository/commits/%s", baseUrl, project, sha);
     return client.getResource(path, Commit.class);
   }
 
@@ -78,12 +84,12 @@ public final class GitlabApi {
   }
 
   public Project getProject(String id) throws IOException {
-    String path = String.format("projects/%s", id);
+    String path = String.format("%s/projects/%s", baseUrl, id);
     return client.getResource(path, Project.class);
   }
 
   public User getUser(String id) throws IOException {
-    String path = String.format("users/%s", id);
+    String path = String.format("%s/users/%s", baseUrl, id);
     return client.getResource(path, User.class);
   }
 }
