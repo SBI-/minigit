@@ -29,18 +29,18 @@ public final class GitlabApi {
 
   public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
       throws IOException, URISyntaxException {
-    String path = buildPath("projects", project, resource).toString();
+    String path = buildUri("projects", project, resource).toString();
     return client.iterateResource(path, type);
   }
 
   public Issue getIssue(int project, int iid) throws IOException, URISyntaxException {
     String path =
-        buildPath("projects", String.valueOf(project), "issues", String.valueOf(iid)).toString();
+        buildUri("projects", String.valueOf(project), "issues", String.valueOf(iid)).toString();
     return client.getResource(path, Issue.class);
   }
 
   public Collection<Issue> getIssues(String id) throws IOException, URISyntaxException {
-    String path = buildPath("projects", id, "issues").toString();
+    String path = buildUri("projects", id, "issues").toString();
     return client.getResources(path, Issue[].class);
   }
 
@@ -49,7 +49,7 @@ public final class GitlabApi {
   }
 
   public Iterable<Issue> iterateIssues(String project) throws IOException, URISyntaxException {
-    String path = buildPath("projects", project, "issues").toString();
+    String path = buildUri("projects", project, "issues").toString();
     return client.iterateResource(path, Issue[].class);
   }
 
@@ -59,14 +59,14 @@ public final class GitlabApi {
 
   public MergeRequest getMergeRequest(int project, int iid) throws IOException, URISyntaxException {
     String path =
-        buildPath("projects", String.valueOf(project), "merge_requests", String.valueOf(iid))
+        buildUri("projects", String.valueOf(project), "merge_requests", String.valueOf(iid))
             .toString();
     return client.getResource(path, MergeRequest.class);
   }
 
   public Collection<MergeRequest> getMergeRequests(String id)
       throws IOException, URISyntaxException {
-    String path = buildPath("projects", id, "merge_requsets").toString();
+    String path = buildUri("projects", id, "merge_requsets").toString();
     return client.getResources(path, MergeRequest[].class);
   }
 
@@ -77,7 +77,7 @@ public final class GitlabApi {
 
   public Iterable<MergeRequest> iterateMergeRequests(String project)
       throws IOException, URISyntaxException {
-    String path = buildPath("projects", project, "merge_requests").toString();
+    String path = buildUri("projects", project, "merge_requests").toString();
     return client.iterateResource(path, MergeRequest[].class);
   }
 
@@ -87,7 +87,7 @@ public final class GitlabApi {
   }
 
   public Commit getCommit(int project, String sha) throws IOException, URISyntaxException {
-    String path = buildPath("projects", String.valueOf("project"), "commits", sha).toString();
+    String path = buildUri("projects", String.valueOf("project"), "commits", sha).toString();
     return client.getResource(path, Commit.class);
   }
 
@@ -96,22 +96,41 @@ public final class GitlabApi {
   }
 
   public Project getProject(String id) throws IOException, URISyntaxException {
-    String path = buildPath("projects", id).toString();
+    String path = buildUri("projects", id).toString();
     return client.getResource(path, Project.class);
   }
 
   public User getUser(String id) throws IOException, URISyntaxException {
-    String path = buildPath("users", id).toString();
+    String path = buildUri("users", id).toString();
     return client.getResource(path, User.class);
   }
 
-  private URI buildPath(String... segments) throws URISyntaxException {
+  private URI buildUri(String... segments) throws URISyntaxException {
     String[] all = ObjectArrays.concat(new String[] {"api", "v4"}, segments, String.class);
+    String path = buildPath(all);
     URIBuilder builder = new URIBuilder(baseUrl);
-    builder.setPathSegments(all);
+    builder.setPath(path);
     builder.addParameters(query);
     URI uri = builder.build();
     System.out.println(String.format("Created URI: %s", uri));
     return uri;
+  }
+
+  /**
+   * Sadly, setPathSegments is not yet part of the 4.5.0 build of httpclient which is packaged with
+   * RTC. So this method attempts to provide the same functionality
+   *
+   * @param segments Segments to be separated by slash
+   * @return The combined Path
+   */
+  private String buildPath(String[] segments) {
+    StringBuilder builder = new StringBuilder();
+
+    for (String segment : segments) {
+      builder.append("/");
+      builder.append(segment);
+    }
+
+    return builder.toString();
   }
 }
