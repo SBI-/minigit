@@ -6,24 +6,29 @@ import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
+import com.google.common.collect.ObjectArrays;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
 
 public final class GitlabApi {
 
-  private final Collection<NameValuePair> query;
+  private final List<NameValuePair> query;
   private final JsonClient client;
   private final String baseUrl;
 
-  GitlabApi(String baseUrl, Collection<NameValuePair> query, JsonClient client) {
+  GitlabApi(String baseUrl, List<NameValuePair> query, JsonClient client) {
     this.query = query;
     this.client = client;
     this.baseUrl = baseUrl;
   }
 
   public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
-      throws IOException {
+      throws IOException, URISyntaxException {
     String path = String.format("%s/projects/%s/%s", baseUrl, project, resource);
     return client.iterateResource(path, type);
   }
@@ -91,5 +96,13 @@ public final class GitlabApi {
   public User getUser(String id) throws IOException {
     String path = String.format("%s/users/%s", baseUrl, id);
     return client.getResource(path, User.class);
+  }
+
+  private URI buildPath(String... segments) throws URISyntaxException {
+    String[] all = ObjectArrays.concat(new String[] {"api", "v4"}, segments, String.class);
+    URIBuilder builder = new URIBuilder(baseUrl);
+    builder.setPathSegments(all);
+    builder.addParameters(query);
+    return builder.build();
   }
 }

@@ -3,8 +3,8 @@ package ch.sbi.minigit.gitlab;
 import ch.sbi.minigit.net.BasicJsonClient;
 import ch.sbi.minigit.net.HttpConnectionFactory;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -12,7 +12,7 @@ import org.apache.http.message.BasicNameValuePair;
 public class GitlabWebFactory {
 
   private final Map<String, String> properties = new HashMap<>();
-  private final Collection<NameValuePair> query = new ArrayList<>();
+  private final List<NameValuePair> query = new ArrayList<>();
   private final String host;
   private int timeout = 0;
 

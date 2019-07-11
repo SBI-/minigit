@@ -2,9 +2,11 @@ package ch.sbi.minigit.example;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.gitlab.GitlabWebFactory;
-import ch.sbi.minigit.type.gitlab.issue.Issue;
+import java.net.URI;
 import java.util.ArrayList;
-import java.util.Date;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.message.BasicNameValuePair;
 
 public class App {
   public static void main(String[] args) throws Exception {
@@ -34,34 +36,34 @@ public class App {
     //    GitlabApi api = GitlabWebFactory.getInstance("https://code.siemens.com", gitlabtoken);
     GitlabApi api = new GitlabWebFactory("https://code.siemens.com").setTimeout(2000).build();
 
-    ArrayList<Issue> result = new ArrayList<>();
-
-    for (Issue issue : api.iterateIssues(13027)) {
-      result.add(issue);
-    }
-
-    System.out.println(result.size());
-
-    System.out.println(api.getIssues(13027).size());
-
-    System.out.println(new Date());
-
-    result = new ArrayList<>();
-
-    for (Issue issue : api.iterateIssues(131)) {
-      result.add(issue);
-    }
-
-    System.out.println(new Date());
-    System.out.println(result.size());
-    //    ArrayList<NameValuePair> pairs = new ArrayList<>();
-    //    pairs.add(new BasicNameValuePair("page_size", "25"));
+    //    ArrayList<Issue> result = new ArrayList<>();
     //
-    //    URIBuilder builder = new URIBuilder();
-    //    builder.setPathSegments("projects", "this is a name", "issue", "123");
-    //    builder.addParameter("created_at", null);
-    //    builder.addParameters(pairs);
-    //    URI uri = builder.build();
-    //    System.out.println(uri);
+    //    for (Issue issue : api.iterateIssues(13027)) {
+    //      result.add(issue);
+    //    }
+    //
+    //    System.out.println(result.size());
+    //
+    //    System.out.println(api.getIssues(13027).size());
+    //
+    //    System.out.println(new Date());
+    //
+    //    result = new ArrayList<>();
+    //
+    //    for (Issue issue : api.iterateIssues(131)) {
+    //      result.add(issue);
+    //    }
+    //
+    //    System.out.println(new Date());
+    //    System.out.println(result.size());
+    ArrayList<NameValuePair> pairs = new ArrayList<>();
+    pairs.add(new BasicNameValuePair("page_size", "25"));
+
+    URIBuilder builder = new URIBuilder("https://code.siemens.com/");
+    builder.setPathSegments("api", "v4");
+    builder.setPathSegments("projects", "guido.schneider/rtc-commit-picker-demo", "issues");
+    builder.addParameter("created_after", "2019-05-01");
+    URI uri = builder.build();
+    System.out.println(uri);
   }
 }
