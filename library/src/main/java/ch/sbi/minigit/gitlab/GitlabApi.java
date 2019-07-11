@@ -29,72 +29,79 @@ public final class GitlabApi {
 
   public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
       throws IOException, URISyntaxException {
-    String path = String.format("%s/projects/%s/%s", baseUrl, project, resource);
+    String path = buildPath("projects", project, resource).toString();
     return client.iterateResource(path, type);
   }
 
-  public Issue getIssue(int project, int iid) throws IOException {
-    String path = String.format("%s/projects/%s/issues/%s", baseUrl, project, iid);
+  public Issue getIssue(int project, int iid) throws IOException, URISyntaxException {
+    String path =
+        buildPath("projects", String.valueOf(project), "issues", String.valueOf(iid)).toString();
     return client.getResource(path, Issue.class);
   }
 
-  public Collection<Issue> getIssues(String id) throws IOException {
-    String path = String.format("%s/projects/%s/issues", baseUrl, id);
+  public Collection<Issue> getIssues(String id) throws IOException, URISyntaxException {
+    String path = buildPath("projects", id, "issues").toString();
     return client.getResources(path, Issue[].class);
   }
 
-  public Collection<Issue> getIssues(int project) throws IOException {
+  public Collection<Issue> getIssues(int project) throws IOException, URISyntaxException {
     return getIssues(String.valueOf(project));
   }
 
-  public Iterable<Issue> iterateIssues(String project) throws IOException {
-    String path = String.format("%s/projects/%s/issues", baseUrl, project);
+  public Iterable<Issue> iterateIssues(String project) throws IOException, URISyntaxException {
+    String path = buildPath("projects", project, "issues").toString();
     return client.iterateResource(path, Issue[].class);
   }
 
-  public Iterable<Issue> iterateIssues(int id) throws IOException {
+  public Iterable<Issue> iterateIssues(int id) throws IOException, URISyntaxException {
     return iterateIssues(String.valueOf(id));
   }
 
-  public MergeRequest getMergeRequest(int project, int iid) throws IOException {
-    String path = String.format("%s/projects/%s/merge_requests/%s", baseUrl, project, iid);
+  public MergeRequest getMergeRequest(int project, int iid) throws IOException, URISyntaxException {
+    String path =
+        buildPath("projects", String.valueOf(project), "merge_requests", String.valueOf(iid))
+            .toString();
     return client.getResource(path, MergeRequest.class);
   }
 
-  public Collection<MergeRequest> getMergeRequests(String id) throws IOException {
-    String path = String.format("%s/projects/%s/merge_requests", baseUrl, id);
+  public Collection<MergeRequest> getMergeRequests(String id)
+      throws IOException, URISyntaxException {
+    String path = buildPath("projects", id, "merge_requsets").toString();
     return client.getResources(path, MergeRequest[].class);
   }
 
-  public Collection<MergeRequest> getMergeRequests(int project) throws IOException {
+  public Collection<MergeRequest> getMergeRequests(int project)
+      throws IOException, URISyntaxException {
     return getMergeRequests(String.valueOf(project));
   }
 
-  public Iterable<MergeRequest> iterateMergeRequests(String project) throws IOException {
-    String path = String.format("%s/projects/%s/merge_requests", baseUrl, project);
+  public Iterable<MergeRequest> iterateMergeRequests(String project)
+      throws IOException, URISyntaxException {
+    String path = buildPath("projects", project, "merge_requests").toString();
     return client.iterateResource(path, MergeRequest[].class);
   }
 
-  public Iterable<MergeRequest> iterateMergeRequests(int id) throws IOException {
+  public Iterable<MergeRequest> iterateMergeRequests(int id)
+      throws IOException, URISyntaxException {
     return iterateMergeRequests(String.valueOf(id));
   }
 
-  public Commit getCommit(int project, String sha) throws IOException {
-    String path = String.format("%s/projects/%s/repository/commits/%s", baseUrl, project, sha);
+  public Commit getCommit(int project, String sha) throws IOException, URISyntaxException {
+    String path = buildPath("projects", String.valueOf("project"), "commits", sha).toString();
     return client.getResource(path, Commit.class);
   }
 
-  public Project getProject(int id) throws IOException {
+  public Project getProject(int id) throws IOException, URISyntaxException {
     return getProject(String.valueOf(id));
   }
 
-  public Project getProject(String id) throws IOException {
-    String path = String.format("%s/projects/%s", baseUrl, id);
+  public Project getProject(String id) throws IOException, URISyntaxException {
+    String path = buildPath("projects", id).toString();
     return client.getResource(path, Project.class);
   }
 
-  public User getUser(String id) throws IOException {
-    String path = String.format("%s/users/%s", baseUrl, id);
+  public User getUser(String id) throws IOException, URISyntaxException {
+    String path = buildPath("users", id).toString();
     return client.getResource(path, User.class);
   }
 
@@ -103,6 +110,8 @@ public final class GitlabApi {
     URIBuilder builder = new URIBuilder(baseUrl);
     builder.setPathSegments(all);
     builder.addParameters(query);
-    return builder.build();
+    URI uri = builder.build();
+    System.out.println(String.format("Created URI: %s", uri));
+    return uri;
   }
 }

@@ -64,6 +64,6 @@ public class App {
     builder.setPathSegments("projects", "guido.schneider/rtc-commit-picker-demo", "issues");
     builder.addParameter("created_after", "2019-05-01");
     URI uri = builder.build();
-    System.out.println(uri);
+    System.out.println(uri.toString());
   }
 }
