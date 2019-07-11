@@ -2,9 +2,6 @@ package ch.sbi.minigit.example;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.gitlab.GitlabWebFactory;
-import ch.sbi.minigit.type.gitlab.issue.Issue;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class App {
   public static void main(String[] args) throws Exception {
@@ -34,25 +31,27 @@ public class App {
     //    GitlabApi api = GitlabWebFactory.getInstance("https://code.siemens.com", gitlabtoken);
     GitlabApi api = new GitlabWebFactory("https://code.siemens.com").setTimeout(2000).build();
 
-    ArrayList<Issue> result = new ArrayList<>();
+    api.iterateIssues("guido.schneider/RTC-Commit-Picker-Demo");
 
-    for (Issue issue : api.iterateIssues(13027)) {
-      result.add(issue);
-    }
+    //    ArrayList<Issue> result = new ArrayList<>();
+    //
+    //    for (Issue issue : api.iterateIssues(13027)) {
+    //      result.add(issue);
+    //    }
+    //
+    //    System.out.println(result.size());
+    //
+    //    System.out.println(api.getIssues(13027).size());
+    //
+    //    System.out.println(new Date());
+    //
+    //    result = new ArrayList<>();
+    //
+    //    for (Issue issue : api.iterateIssues(131)) {
+    //      result.add(issue);
+    //    }
 
-    System.out.println(result.size());
-
-    System.out.println(api.getIssues(13027).size());
-
-    System.out.println(new Date());
-
-    result = new ArrayList<>();
-
-    for (Issue issue : api.iterateIssues(131)) {
-      result.add(issue);
-    }
-
-    System.out.println(new Date());
-    System.out.println(result.size());
+    //    System.out.println(new Date());
+    //    System.out.println(result.size());
   }
 }

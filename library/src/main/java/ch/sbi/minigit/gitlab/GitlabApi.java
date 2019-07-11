@@ -8,8 +8,10 @@ import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
 import com.google.common.collect.ObjectArrays;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -107,9 +109,9 @@ public final class GitlabApi {
 
   private URI buildUri(String... segments) throws URISyntaxException {
     String[] all = ObjectArrays.concat(new String[] {"api", "v4"}, segments, String.class);
-    String path = buildPath(all);
+    // String path = buildPath(all);
     URIBuilder builder = new URIBuilder(baseUrl);
-    builder.setPath(path);
+    builder.setPathSegments(all);
     builder.addParameters(query);
     URI uri = builder.build();
     System.out.println(String.format("Created URI: %s", uri));
@@ -128,7 +130,14 @@ public final class GitlabApi {
 
     for (String segment : segments) {
       builder.append("/");
-      builder.append(segment);
+      try {
+        builder.append(segment);
+        //        builder.append(URLEncoder.encode(segment, "UTF-8"));
+        URLEncoder.encode("dini mueter", "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        // attempt to connect anyway. This is sketchy.
+        builder.append(segment);
+      }
     }
 
     return builder.toString();
