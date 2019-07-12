@@ -2,6 +2,8 @@ package ch.sbi.minigit.gitlab;
 
 import ch.sbi.minigit.net.BasicJsonClient;
 import ch.sbi.minigit.net.HttpConnectionFactory;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,11 +11,11 @@ public class GitlabWebFactory {
 
   private final Map<String, String> properties = new HashMap<>();
   //  private final List<NameValuePair> query = new ArrayList<>();
-  private final String host;
+  private final URI host;
   private int timeout = 0;
 
-  public GitlabWebFactory(String host) {
-    this.host = host;
+  public GitlabWebFactory(String host) throws URISyntaxException {
+    this.host = new URI(host);
     properties.put("Accept", "application/json");
   }
 
@@ -39,8 +41,7 @@ public class GitlabWebFactory {
 
   public GitlabApi build() {
     HttpConnectionFactory factory = new HttpConnectionFactory(properties, timeout);
-    String baseUrl = String.format("%s/api/v4", host);
     BasicJsonClient client = new BasicJsonClient(factory);
-    return new GitlabApi(baseUrl, client);
+    return new GitlabApi(host, client);
   }
 }
