@@ -8,23 +8,16 @@ import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
 import com.google.common.collect.ObjectArrays;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.Collection;
-import java.util.List;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
 
 public final class GitlabApi {
 
-  private final List<NameValuePair> query;
   private final JsonClient client;
   private final String baseUrl;
 
-  GitlabApi(String baseUrl, List<NameValuePair> query, JsonClient client) {
-    this.query = query;
+  GitlabApi(String baseUrl, JsonClient client) {
     this.client = client;
     this.baseUrl = baseUrl;
   }
@@ -109,37 +102,6 @@ public final class GitlabApi {
 
   private URI buildUri(String... segments) throws URISyntaxException {
     String[] all = ObjectArrays.concat(new String[] {"api", "v4"}, segments, String.class);
-    // String path = buildPath(all);
-    URIBuilder builder = new URIBuilder(baseUrl);
-    builder.setPathSegments(all);
-    builder.addParameters(query);
-    URI uri = builder.build();
-    System.out.println(String.format("Created URI: %s", uri));
-    return uri;
-  }
-
-  /**
-   * Sadly, setPathSegments is not yet part of the 4.5.0 build of httpclient which is packaged with
-   * RTC. So this method attempts to provide the same functionality
-   *
-   * @param segments Segments to be separated by slash
-   * @return The combined Path
-   */
-  private String buildPath(String[] segments) {
-    StringBuilder builder = new StringBuilder();
-
-    for (String segment : segments) {
-      builder.append("/");
-      try {
-        builder.append(segment);
-        //        builder.append(URLEncoder.encode(segment, "UTF-8"));
-        URLEncoder.encode("dini mueter", "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        // attempt to connect anyway. This is sketchy.
-        builder.append(segment);
-      }
-    }
-
-    return builder.toString();
+    return null;
   }
 }

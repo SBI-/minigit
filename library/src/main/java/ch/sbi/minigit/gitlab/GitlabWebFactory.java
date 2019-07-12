@@ -2,17 +2,13 @@ package ch.sbi.minigit.gitlab;
 
 import ch.sbi.minigit.net.BasicJsonClient;
 import ch.sbi.minigit.net.HttpConnectionFactory;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 public class GitlabWebFactory {
 
   private final Map<String, String> properties = new HashMap<>();
-  private final List<NameValuePair> query = new ArrayList<>();
+  //  private final List<NameValuePair> query = new ArrayList<>();
   private final String host;
   private int timeout = 0;
 
@@ -31,20 +27,20 @@ public class GitlabWebFactory {
     return this;
   }
 
-  public GitlabWebFactory addQueryParameter(NameValuePair pair) {
-    query.add(pair);
-    return this;
-  }
+  //  public GitlabWebFactory addQueryParameter(NameValuePair pair) {
+  //    query.add(pair);
+  //    return this;
+  //  }
 
-  public GitlabWebFactory addQueryParameter(String name, String value) {
-    BasicNameValuePair pair = new BasicNameValuePair(name, value);
-    return this.addQueryParameter(pair);
-  }
+  //  public GitlabWebFactory addQueryParameter(String name, String value) {
+  //    BasicNameValuePair pair = new BasicNameValuePair(name, value);
+  //    return this.addQueryParameter(pair);
+  //  }
 
   public GitlabApi build() {
     HttpConnectionFactory factory = new HttpConnectionFactory(properties, timeout);
     String baseUrl = String.format("%s/api/v4", host);
     BasicJsonClient client = new BasicJsonClient(factory);
-    return new GitlabApi(baseUrl, query, client);
+    return new GitlabApi(baseUrl, client);
   }
 }
