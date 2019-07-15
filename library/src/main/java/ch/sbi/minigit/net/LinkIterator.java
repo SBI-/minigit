@@ -22,6 +22,7 @@ final class LinkIterator<T> implements Iterator<T> {
     this.connectionFactory = connectionFactory;
     this.type = type;
     // this is dodgy and should be solved in a better way, eg factory method.
+    // Also, this doesn't defer fetching the first page to iteration-time, but instead this is done at construction, which isn't extremely bad, but should still be avoided.
     current = getNextPage();
   }
 
