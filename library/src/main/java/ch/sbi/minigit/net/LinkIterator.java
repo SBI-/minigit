@@ -13,7 +13,7 @@ final class LinkIterator<T> implements Iterator<T> {
   private final Gson gson = new GsonBuilder().create();
 
   private String next;
-  private Iterator<T> current = Collections.emptyIterator();
+  private Iterator<T> current;
   private ConnectionFactory connectionFactory;
   private final Class<T[]> type;
 
@@ -21,13 +21,17 @@ final class LinkIterator<T> implements Iterator<T> {
     next = start.getFirst();
     this.connectionFactory = connectionFactory;
     this.type = type;
-    // this is dodgy and should be solved in a better way, eg factory method.
-    // Also, this doesn't defer fetching the first page to iteration-time, but instead this is done at construction, which isn't extremely bad, but should still be avoided.
-    current = getNextPage();
   }
 
   @Override
   public boolean hasNext() {
+    // Defer fetching of the first page to the point where this iterator is used in a loop.
+    // This is still not a very nice solution, but fixes the problem where fetching the first page
+    // was forced to the constructor.
+    if (current == null) {
+      current = getNextPage();
+    }
+
     return current.hasNext() || next != null;
   }
 
