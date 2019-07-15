@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
-class LinkIterator<T> implements Iterator<T> {
+final class LinkIterator<T> implements Iterator<T> {
   private final Gson gson = new GsonBuilder().create();
 
   private String next;
@@ -21,6 +21,8 @@ class LinkIterator<T> implements Iterator<T> {
     next = start.getFirst();
     this.connectionFactory = connectionFactory;
     this.type = type;
+    // this is dodgy and should be solved in a better way, eg factory method.
+    current = getNextPage();
   }
 
   @Override
