@@ -1,6 +1,7 @@
 package ch.sbi.minigit.gitlab;
 
 import ch.sbi.minigit.net.JsonClient;
+import ch.sbi.minigit.net.QueryParameter;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
@@ -10,16 +11,19 @@ import com.google.common.collect.ObjectArrays;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
+import java.util.List;
 import okhttp3.HttpUrl.Builder;
 
 public final class GitlabApi {
 
   private final JsonClient client;
   private final URI host;
+  private final List<QueryParameter> query;
 
-  GitlabApi(URI host, JsonClient client) {
+  GitlabApi(URI host, JsonClient client, List<QueryParameter> query) {
     this.client = client;
     this.host = host;
+    this.query = query;
   }
 
   public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
@@ -78,7 +82,7 @@ public final class GitlabApi {
   }
 
   public Commit getCommit(int project, String sha) throws IOException {
-    String path = buildUri("projects", String.valueOf("project"), "commits", sha).toString();
+    String path = buildUri("projects", String.valueOf(project), "commits", sha).toString();
     return client.getResource(path, Commit.class);
   }
 
@@ -97,11 +101,17 @@ public final class GitlabApi {
   }
 
   private URI buildUri(String... segments) {
+    // construct the url from it's segments
     String[] all = ObjectArrays.concat(new String[] {"api", "v4"}, segments, String.class);
     Builder builder = new Builder().scheme(host.getScheme()).host(host.getHost());
 
     for (String segment : all) {
       builder.addPathSegment(segment);
+    }
+
+    // construct query section of url
+    for (QueryParameter parameter : query) {
+      builder.addQueryParameter(parameter.getName(), parameter.getValue());
     }
 
     URI uri = builder.build().uri();
