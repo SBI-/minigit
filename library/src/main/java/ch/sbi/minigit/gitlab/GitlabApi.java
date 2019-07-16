@@ -114,8 +114,6 @@ public final class GitlabApi {
       builder.addQueryParameter(parameter.getName(), parameter.getValue());
     }
 
-    URI uri = builder.build().uri();
-    System.out.println(String.format("Built uri: %s", uri.toString()));
-    return uri;
+    return builder.build().uri();
   }
 }
