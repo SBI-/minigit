@@ -129,7 +129,7 @@
           <sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>
           <sourceType>json</sourceType>
           <targetPackage>ch.sbi.minigit.type</targetPackage>
-          <customAnnotator>ch.sbi.minigit.annotation.XmlListAnnotator</customAnnotator>
+          <customAnnotator>ch.sbi.minigit.annotation.Annotators</customAnnotator>
         </configuration>
         <executions>
           <execution>
