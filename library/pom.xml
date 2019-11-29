@@ -41,6 +41,12 @@
       <artifactId>okhttp</artifactId>
       <version>3.12.3</version>
     </dependency>
+    <!-- Custom moxy provider for additional xml features. This will have to be tested with rtc -->
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.moxy</artifactId>
+      <version>2.7.5</version>
+    </dependency>
   </dependencies>
 
   <build>
