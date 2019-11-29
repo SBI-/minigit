@@ -11,8 +11,11 @@ import org.jsonschema2pojo.AbstractAnnotator;
 
 public class CDataAnnotator extends AbstractAnnotator {
 
+  // these should probably be configurable per type, so maybe different adapters for different types
+  // or something like that. Also, I'm sure this is not exhaustive yet and will require more
+  // testing.
   private static final Set<String> CDATA_FIELDS =
-      new HashSet<>(Arrays.asList("title", "description"));
+      new HashSet<>(Arrays.asList("title", "description", "comment"));
 
   @Override
   public void propertyField(
