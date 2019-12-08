@@ -11,12 +11,10 @@ import java.util.Iterator;
 
 public final class BasicJsonClient implements JsonClient {
 
-  private final String baseUrl;
   private ConnectionFactory connectionFactory;
   private final Gson gson = new GsonBuilder().create();
 
-  public BasicJsonClient(String baseUrl, ConnectionFactory connectionFactory) {
-    this.baseUrl = baseUrl;
+  public BasicJsonClient(ConnectionFactory connectionFactory) {
     this.connectionFactory = connectionFactory;
   }
 
@@ -43,8 +41,7 @@ public final class BasicJsonClient implements JsonClient {
   }
 
   @Override
-  public <T> T getResource(String path, Class<T> type) throws IOException {
-    String endpoint = String.format("%s/%s", baseUrl, path);
+  public <T> T getResource(String endpoint, Class<T> type) throws IOException {
     URLConnection connection = connectionFactory.getConnection(endpoint);
     connection.connect();
 
@@ -53,8 +50,7 @@ public final class BasicJsonClient implements JsonClient {
     }
   }
 
-  private LinkHeader initialize(String path) throws IOException {
-    String endpoint = String.format("%s/%s", baseUrl, path);
+  private LinkHeader initialize(String endpoint) throws IOException {
     URLConnection connection = connectionFactory.getConnection(endpoint);
     connection.connect();
 

@@ -80,7 +80,8 @@
     "self": "http://gitlab.com/api/v4/projects/13027/issues/6",
     "notes": "http://gitlab.com/api/v4/projects/13027/issues/6/notes",
     "award_emoji": "http://gitlab.com/api/v4/projects/13027/issues/6/award_emoji",
-    "project": "http://gitlab.com/api/v4/projects/13027"
+    "project": "http://gitlab.com/api/v4/projects/13027",
+    "rtc": "http://jazz.net/git-service/git-issue"
   },
   "subscribed": true
 }

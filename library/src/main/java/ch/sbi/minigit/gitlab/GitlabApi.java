@@ -1,34 +1,45 @@
 package ch.sbi.minigit.gitlab;
 
 import ch.sbi.minigit.net.JsonClient;
+import ch.sbi.minigit.net.QueryParameter;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import ch.sbi.minigit.type.gitlab.project.Project;
 import ch.sbi.minigit.type.gitlab.user.User;
+import com.google.common.collect.ObjectArrays;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
+import java.util.List;
+import okhttp3.HttpUrl.Builder;
 
 public final class GitlabApi {
-  private final JsonClient client;
 
-  GitlabApi(JsonClient client) {
+  private final JsonClient client;
+  private final URI host;
+  private final List<QueryParameter> query;
+
+  GitlabApi(URI host, JsonClient client, List<QueryParameter> query) {
     this.client = client;
+    this.host = host;
+    this.query = query;
   }
 
   public <T> Iterable<T> iterateProjectResource(String project, String resource, Class<T[]> type)
       throws IOException {
-    String path = String.format("projects/%s/%s", project, resource);
+    String path = buildUri("projects", project, resource).toString();
     return client.iterateResource(path, type);
   }
 
   public Issue getIssue(int project, int iid) throws IOException {
-    String path = String.format("projects/%s/issues/%s", project, iid);
+    String path =
+        buildUri("projects", String.valueOf(project), "issues", String.valueOf(iid)).toString();
     return client.getResource(path, Issue.class);
   }
 
   public Collection<Issue> getIssues(String id) throws IOException {
-    String path = String.format("projects/%s/issues", id);
+    String path = buildUri("projects", id, "issues").toString();
     return client.getResources(path, Issue[].class);
   }
 
@@ -37,7 +48,7 @@ public final class GitlabApi {
   }
 
   public Iterable<Issue> iterateIssues(String project) throws IOException {
-    String path = String.format("projects/%s/issues", project);
+    String path = buildUri("projects", project, "issues").toString();
     return client.iterateResource(path, Issue[].class);
   }
 
@@ -46,12 +57,14 @@ public final class GitlabApi {
   }
 
   public MergeRequest getMergeRequest(int project, int iid) throws IOException {
-    String path = String.format("projects/%s/merge_requests/%s", project, iid);
+    String path =
+        buildUri("projects", String.valueOf(project), "merge_requests", String.valueOf(iid))
+            .toString();
     return client.getResource(path, MergeRequest.class);
   }
 
   public Collection<MergeRequest> getMergeRequests(String id) throws IOException {
-    String path = String.format("projects/%s/merge_requests", id);
+    String path = buildUri("projects", id, "merge_requsets").toString();
     return client.getResources(path, MergeRequest[].class);
   }
 
@@ -60,7 +73,7 @@ public final class GitlabApi {
   }
 
   public Iterable<MergeRequest> iterateMergeRequests(String project) throws IOException {
-    String path = String.format("projects/%s/merge_requests", project);
+    String path = buildUri("projects", project, "merge_requests").toString();
     return client.iterateResource(path, MergeRequest[].class);
   }
 
@@ -69,7 +82,7 @@ public final class GitlabApi {
   }
 
   public Commit getCommit(int project, String sha) throws IOException {
-    String path = String.format("projects/%s/repository/commits/%s", project, sha);
+    String path = buildUri("projects", String.valueOf(project), "commits", sha).toString();
     return client.getResource(path, Commit.class);
   }
 
@@ -78,12 +91,29 @@ public final class GitlabApi {
   }
 
   public Project getProject(String id) throws IOException {
-    String path = String.format("projects/%s", id);
+    String path = buildUri("projects", id).toString();
     return client.getResource(path, Project.class);
   }
 
   public User getUser(String id) throws IOException {
-    String path = String.format("users/%s", id);
+    String path = buildUri("users", id).toString();
     return client.getResource(path, User.class);
+  }
+
+  private URI buildUri(String... segments) {
+    // construct the url from it's segments
+    String[] all = ObjectArrays.concat(new String[] {"api", "v4"}, segments, String.class);
+    Builder builder = new Builder().scheme(host.getScheme()).host(host.getHost());
+
+    for (String segment : all) {
+      builder.addPathSegment(segment);
+    }
+
+    // construct query section of url
+    for (QueryParameter parameter : query) {
+      builder.addQueryParameter(parameter.getName(), parameter.getValue());
+    }
+
+    return builder.build().uri();
   }
 }

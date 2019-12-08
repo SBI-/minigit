@@ -23,7 +23,7 @@ public class GithubWebFactory {
     }
 
     HttpConnectionFactory factory = new HttpConnectionFactory(properties, 0);
-    BasicJsonClient client = new BasicJsonClient(host, factory);
+    BasicJsonClient client = new BasicJsonClient(factory);
     return new GithubApi(client);
   }
 }

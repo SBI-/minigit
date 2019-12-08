@@ -6,14 +6,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLConnection;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 
-class LinkIterator<T> implements Iterator<T> {
+final class LinkIterator<T> implements Iterator<T> {
   private final Gson gson = new GsonBuilder().create();
 
   private String next;
-  private Iterator<T> current = Collections.emptyIterator();
+  private Iterator<T> current;
   private ConnectionFactory connectionFactory;
   private final Class<T[]> type;
 
@@ -25,6 +24,17 @@ class LinkIterator<T> implements Iterator<T> {
 
   @Override
   public boolean hasNext() {
+    // Defer fetching of the first page to the point where this iterator is used in a loop.
+    // This is still not a very nice solution, but fixes the problem where fetching the first page
+    // was forced to the constructor.
+    if (current == null && next == null) {
+      return false;
+    }
+
+    if (current == null) {
+      current = getNextPage();
+    }
+
     return current.hasNext() || next != null;
   }
 

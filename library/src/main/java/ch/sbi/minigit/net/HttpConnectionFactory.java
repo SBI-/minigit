@@ -29,7 +29,7 @@ public class HttpConnectionFactory implements ConnectionFactory {
 
     if (!(connection instanceof HttpURLConnection)) {
       throw new IllegalArgumentException(
-          String.format("%s is not a valid http endpoint", endpoint));
+          String.format("%s is not a valid http endpoint.", endpoint));
     }
 
     HttpURLConnection httpConnection = (HttpURLConnection) connection;
