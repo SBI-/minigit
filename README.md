@@ -1,3 +1,5 @@
+![](https://github.com/SBI-/minigit/workflows/Java%20CI/badge.svg?branch=master)
+
 # minigit
 Extremely small and light weight java git service library.
 
