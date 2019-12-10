@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/SBI-/minigit.svg?branch=master)](https://travis-ci.org/SBI-/minigit)
-
 # minigit
 Extremely small and light weight java git service library.
 
