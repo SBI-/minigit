@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/SBI-/minigit.svg?branch=master)](https://travis-ci.org/SBI-/minigit)
+![](https://github.com/SBI-/minigit/workflows/Java%20CI/badge.svg)
 
 # minigit
 Extremely small and light weight java git service library.
