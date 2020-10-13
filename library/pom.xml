@@ -32,7 +32,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
     <!-- 3.x.x is compatible with java 7. After upgrading, this dependency should change to 4.x.x -->
